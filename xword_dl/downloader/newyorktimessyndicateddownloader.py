@@ -123,8 +123,14 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
 
         puzzle.fill = fill
         puzzle.solution = solution
+<<<<<<< HEAD
 
         numbering = DefaultClueNumbering(puzzle.fill, ["temp-value" for c in clues], puzzle.width, puzzle.height)
+=======
+        puzzle.clues = [c['value'] for c in clues]
+
+        numbering = puzzle.clue_numbering()
+>>>>>>> 832c654 (Refactor NYTS + NYTM to differnt files to avoid merge conflicts)
         i = 0
         for mapping in numbering.across:
             clues[i]['num'] = mapping['num']
@@ -147,4 +153,14 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
             puzzle._extensions_order.extend([b'GRBS', b'RTBL'])
             puzzle.rebus()
 
+<<<<<<< HEAD
         return puzzle
+=======
+        return puzzle
+
+    def pick_filename(self, puzzle, **kwargs):
+        if puzzle.title == self.date.strftime('%A, %B %d, %Y'):
+            title = ''
+        else:
+            title = puzzle.title
+>>>>>>> 832c654 (Refactor NYTS + NYTM to differnt files to avoid merge conflicts)

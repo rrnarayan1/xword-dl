@@ -61,6 +61,7 @@ class NewYorkerDownloader(AmuseLabsDownloader):
         soup = BeautifulSoup(res.text, "html.parser")
 
         iframe_tag = soup.find('iframe', id='crossword')
+        print("hello")
 
         try:
             iframe_url = iframe_tag['data-src']
