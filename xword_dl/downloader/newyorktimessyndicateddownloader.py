@@ -148,9 +148,3 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
             puzzle.rebus()
 
         return puzzle
-
-    def pick_filename(self, puzzle, **kwargs):
-        if puzzle.title == self.date.strftime('%A, %B %d, %Y'):
-            title = ''
-        else:
-            title = puzzle.title
