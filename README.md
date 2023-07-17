@@ -22,7 +22,8 @@ Supported outlets:
 |*The McKinsey Crossword*|`mck`|✔️|✔️|✔️|
 |*The Modern Crossword*|`mod`|✔️|✔️|✔️|
 |*New York Times*|`nyt`|✔️|✔️|✔️|
-|*New York Times Mini*|`nytm`|✔️|✔️|✔️|
+|*New York Times Mini *|`nytm`|✔️|✔️|✔️|
+|*New York Times Syndicated*|`nyts`|✔️|✔️|✔️|
 |*New York Times Variety*|`nytv`|✔️|✔️|✔️|
 |*The New Yorker*|`tny`|✔️|✔️|✔️|
 |*Newsday*|`nd`|✔️|✔️||
