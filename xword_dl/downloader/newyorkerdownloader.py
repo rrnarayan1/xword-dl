@@ -8,11 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from .amuselabsdownloader import AmuseLabsDownloader
-<<<<<<< HEAD
 from util import XWordDLException
-=======
-from ..util import XWordDLException
->>>>>>> 166bf56 (centralize encoding cleanup and add emoji processing step (#157))
 
 class NewYorkerDownloader(AmuseLabsDownloader):
     command = 'tny'
@@ -68,11 +64,9 @@ class NewYorkerDownloader(AmuseLabsDownloader):
         soup = BeautifulSoup(res.text, "html.parser")
 
         iframe_tag = soup.find('iframe', id='crossword')
-        print("hello")
 
         try:
             iframe_url = iframe_tag['data-src']
-            print(iframe_url)
             query = urllib.parse.urlparse(iframe_url).query
             query_id = urllib.parse.parse_qs(query)['id']
             self.id = query_id[0]

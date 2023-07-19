@@ -8,11 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from .basedownloader import BaseDownloader
-<<<<<<< HEAD
 from util import XWordDLException
-=======
-from ..util import XWordDLException
->>>>>>> 166bf56 (centralize encoding cleanup and add emoji processing step (#157))
 
 class GuardianDownloader(BaseDownloader):
     outlet = 'Guardian'
