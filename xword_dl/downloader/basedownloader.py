@@ -1,5 +1,9 @@
 import urllib
 
+<<<<<<< HEAD
+=======
+import requests
+>>>>>>> aed8b48 (remove relative imports)
 from util import *
 
 class BaseDownloader:
