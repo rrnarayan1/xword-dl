@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from html2text import html2text
 
 from .basedownloader import BaseDownloader
-from ..util import *
+from util import *
 
 class AmuseLabsDownloader(BaseDownloader):
     def __init__(self, **kwargs):

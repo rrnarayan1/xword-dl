@@ -3,7 +3,7 @@ import requests
 import xmltodict
 
 from .basedownloader import BaseDownloader
-from ..util import unidecode
+from util import unidecode
 
 class CrosswordCompilerDownloader(BaseDownloader):
     def __init__(self, **kwargs):

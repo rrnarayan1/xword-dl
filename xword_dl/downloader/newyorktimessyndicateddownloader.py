@@ -5,7 +5,7 @@ import puz
 import requests
 
 from .basedownloader import BaseDownloader
-from ..util import *
+from util import *
 
 class NewYorkTimesSyndicatedDownloader(BaseDownloader):
     command = 'nyts'

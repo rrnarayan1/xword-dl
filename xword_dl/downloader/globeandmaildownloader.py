@@ -2,7 +2,7 @@ import datetime
 import urllib
 
 from .compilerdownloader import CrosswordCompilerDownloader
-from ..util import XWordDLException
+from util import XWordDLException
 
 class GlobeAndMailDownloader(CrosswordCompilerDownloader):
     command = 'tgam'

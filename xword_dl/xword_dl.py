@@ -13,9 +13,9 @@ from getpass import getpass
 
 from bs4 import BeautifulSoup
 
-from . import downloader
+import downloader
 
-from .util import *
+from util import *
 
 with open(os.path.join(os.path.dirname(__file__), 'version')) as f:
     __version__ = f.read().strip()
@@ -114,7 +114,7 @@ def parse_for_embedded_puzzle(url, **kwargs):
 
 
 def get_supported_outlets(command_only=True):
-    all_classes = inspect.getmembers(sys.modules['xword_dl.downloader'],
+    all_classes = inspect.getmembers(sys.modules['downloader'],
                                      inspect.isclass)
     dls = [d for d in all_classes if issubclass(d[1], 
                    downloader.BaseDownloader)]

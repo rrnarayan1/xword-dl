@@ -1,6 +1,6 @@
 import urllib
 
-from ..util import *
+from util import *
 
 class BaseDownloader:
     outlet = None

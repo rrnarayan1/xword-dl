@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from .basedownloader import BaseDownloader
-from ..util import unidecode, XWordDLException
+from util import unidecode, XWordDLException
 
 class GuardianDownloader(BaseDownloader):
     outlet = 'Guardian'
