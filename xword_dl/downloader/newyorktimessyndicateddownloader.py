@@ -2,6 +2,7 @@ import datetime
 import urllib
 
 import puz
+from puz import DefaultClueNumbering
 import requests
 
 from .basedownloader import BaseDownloader
@@ -122,9 +123,8 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
 
         puzzle.fill = fill
         puzzle.solution = solution
-        puzzle.clues = [c['value'] for c in clues]
 
-        numbering = puzzle.clue_numbering()
+        numbering = DefaultClueNumbering(puzzle.fill, ["temp-value" for c in clues], puzzle.width, puzzle.height)
         i = 0
         for mapping in numbering.across:
             clues[i]['num'] = mapping['num']
