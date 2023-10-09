@@ -61,17 +61,10 @@ class AMUniversalDownloader(BaseDownloader):
                                  ' / Ed. ',
                                  fetched.get('Editor', '')])
         puzzle.copyright = fetched.get('Copyright', '')
-        if (xword_data.get('Width')):
-            puzzle.width = int(xword_data.get('Width'))
-            puzzle.height = int(xword_data.get('Height'))
-            solution = xword_data.get('AllAnswer').replace('-', '.')
-        else:
-            solution_dict = xword_data.get('Solution')
-            puzzle.height = len(solution_dict.keys())
-            puzzle.width = len(solution_dict['Line1'])
-            solution = ''
-            for line in solution_dict.values():
-                solution += line.replace(' ', '.')
+        puzzle.width = int(xword_data.get('Width'))
+        puzzle.height = int(xword_data.get('Height'))
+
+        solution = xword_data.get('AllAnswer').replace('-', '.')
 
         puzzle.solution = solution
 
