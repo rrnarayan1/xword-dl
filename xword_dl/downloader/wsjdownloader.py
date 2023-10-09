@@ -66,13 +66,8 @@ class WSJDownloader(BaseDownloader):
         self.date = datetime.datetime.strptime(date_string, '%Y/%m/%d')
 
         fetched = {}
-<<<<<<< HEAD
-        for field in ['title', 'byline', 'publisher', 'description']:
-            fetched[field] = html2text(xword_metadata.get(field, '') or '',
-=======
         for field in ['title', 'byline', 'publisher', 'crosswordadditionalcopy']:
             fetched[field] = html2text(xword_metadata.get(field) or '',
->>>>>>> upstream/main
                                        bodywidth=0).strip()
 
         puzzle = puz.Puzzle()
