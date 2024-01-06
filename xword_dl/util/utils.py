@@ -47,6 +47,24 @@ def remove_invalid_chars_from_filename(filename):
 
     return filename
 
+def sanitize_for_puzfile(puzzle, preserve_html=False):
+    def cleanup(field):
+        if preserve_html:
+            field = emoji.demojize(unidecode(field)).strip()
+        else:
+            field = emoji.demojize(html2text(unidecode(field),
+                                             bodywidth=0).strip())
+        return field
+
+    puzzle.title = cleanup(puzzle.title)
+    puzzle.author = cleanup(puzzle.author)
+    puzzle.copyright = cleanup(puzzle.copyright)
+
+    puzzle.notes = cleanup(puzzle.notes)
+
+    puzzle.clues = [cleanup(clue) for clue in puzzle.clues]
+
+    return puzzle
 
 def cleanup(field, preserve_html=False):
     if preserve_html:
