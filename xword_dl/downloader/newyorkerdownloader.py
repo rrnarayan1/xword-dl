@@ -8,7 +8,11 @@ import requests
 from bs4 import BeautifulSoup
 
 from .amuselabsdownloader import AmuseLabsDownloader
+<<<<<<< HEAD
 from util import XWordDLException
+=======
+from ..util import XWordDLException
+>>>>>>> 166bf56 (centralize encoding cleanup and add emoji processing step (#157))
 
 class NewYorkerDownloader(AmuseLabsDownloader):
     command = 'tny'
@@ -85,7 +89,7 @@ class NewYorkerDownloader(AmuseLabsDownloader):
         desc = soup.find('meta',attrs={'property':
                                        'og:description'}).get('content', '')
         if desc.startswith(theme_supra):
-            self.theme_title = unidecode(desc[len(theme_supra):].rstrip('.'))
+            self.theme_title = desc[len(theme_supra):].rstrip('.')
 
         return self.find_puzzle_url_from_id(self.id)
         

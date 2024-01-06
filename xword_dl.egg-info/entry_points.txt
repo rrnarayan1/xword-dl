@@ -1,0 +1,2 @@
+[console_scripts]
+xword-dl = xword_dl.xword_dl:main
