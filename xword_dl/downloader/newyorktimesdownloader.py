@@ -153,7 +153,11 @@ class NewYorkTimesDownloader(BaseDownloader):
                 solution += suitable_answer[0]
                 fill += '-'
                 rebus_board.append(rebus_index + 1)
+<<<<<<< HEAD
                 rebus_table += '{:2d}:{};'.format(rebus_index, suitable_answer)
+=======
+                rebus_table += '{:2d}:{};'.format(rebus_index, unidecode(square['answer']))
+>>>>>>> 8137689 ({amuse,nyt}: sanitize rebus inputs (#172))
                 rebus_index += 1
 
             markup += (b'\x00' if square.get('type', 1) == 1 else b'\x80')
