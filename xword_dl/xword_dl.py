@@ -14,15 +14,9 @@ from getpass import getpass
 
 from bs4 import BeautifulSoup
 
-<<<<<<< HEAD
 # sys.path.insert(0, './xword_dl')
 
 import downloader
-
-=======
-import downloader
-
->>>>>>> aed8b48 (remove relative imports)
 from util import *
 
 with open(os.path.join(os.path.dirname(__file__), 'version')) as f:
