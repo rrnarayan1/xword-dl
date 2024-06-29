@@ -112,7 +112,7 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
                         fill += '-'
                         solution += row[i]
                         rebus_board.append(0)
-                        if (i == 0 or row[i-1] != '%'):
+                        if (i == 0 or (row[i-1] != '%' and row[i-1] != '^')):
                             markup += b'\x00'
                     i+=1
             elif (section == 'across_clues'):
@@ -135,7 +135,7 @@ class NewYorkTimesSyndicatedDownloader(BaseDownloader):
         clues.sort(key=lambda c: (int(c['num']), c['direction']))
         puzzle.clues = [c['value'] for c in clues]
 
-        if b'\x80' in markup:
+        if (b'\x80' in markup or b'\x40' in markup):
             puzzle.extensions[b'GEXT'] = markup
             puzzle._extensions_order.append(b'GEXT')
             puzzle.markup()
