@@ -12,15 +12,8 @@ import xmltodict
 from urllib.parse import unquote
 
 from .basedownloader import BaseDownloader
-<<<<<<< HEAD
-<<<<<<< HEAD
 from util import XWordDLException
-=======
-from ..util import XWordDLException
->>>>>>> 166bf56 (centralize encoding cleanup and add emoji processing step (#157))
-=======
-from util import XWordDLException
->>>>>>> 89245a6 (remove relative imports)
+
 
 class AMUniversalDownloader(BaseDownloader):
     def __init__(self, **kwargs):

@@ -14,7 +14,7 @@ from getpass import getpass
 
 from bs4 import BeautifulSoup
 
-# sys.path.insert(0, './xword_dl')
+sys.path.insert(0, './xword_dl')
 
 import downloader
 from util import *
