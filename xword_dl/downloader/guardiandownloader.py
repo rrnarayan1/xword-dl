@@ -8,7 +8,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException
+# from ..util import XWordDLException
+from util import XWordDLException
 
 class GuardianDownloader(BaseDownloader):
     outlet = 'Guardian'

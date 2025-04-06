@@ -5,7 +5,8 @@ import puz
 import requests
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException, join_bylines, update_config_file, unidecode
+# from ..util import XWordDLException, join_bylines, update_config_file, unidecode
+from util import XWordDLException, join_bylines, update_config_file, unidecode
 
 class NewYorkTimesDownloader(BaseDownloader):
     command = 'nyt'

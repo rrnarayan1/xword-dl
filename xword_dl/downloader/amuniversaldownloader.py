@@ -12,7 +12,8 @@ import xmltodict
 from urllib.parse import unquote
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException
+# from ..util import XWordDLException
+from util import XWordDLException
 
 class AMUniversalDownloader(BaseDownloader):
     def __init__(self, **kwargs):

@@ -5,7 +5,8 @@ import puz
 from bs4 import BeautifulSoup
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException
+# from ..util import XWordDLException
+from util import XWordDLException
 
 class WSJDownloader(BaseDownloader):
 #   Disabling this downloader for now (2024-07-07) because anti-scraping tech

@@ -2,7 +2,8 @@ import urllib
 
 import requests
 
-from ..util import *
+# from ..util import *
+from util import *
 
 class BaseDownloader:
     outlet = None
