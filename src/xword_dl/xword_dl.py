@@ -2,14 +2,13 @@
 
 import argparse
 import json
-import os
 import sys
 import textwrap
 import urllib.parse
 
 import requests
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from puz import Puzzle
 
 # sys.path.insert(0, './xword_dl')
@@ -20,6 +19,10 @@ from util import *
 
 with open(os.path.join(os.path.dirname(__file__), 'version')) as f:
     __version__ = f.read().strip()
+try:
+    from ._version import __version__ as __version__  # type: ignore
+except ModuleNotFoundError:
+    __version__ = "0.0.0-dev"
 
 plugins = get_plugins()
 
@@ -88,11 +91,12 @@ def parse_for_embedded_puzzle(url: str, **kwargs):
     sources = [
         urllib.parse.urljoin(
             url,
-            iframe.get("data-crossword-url", "")
-            or iframe.get("data-src", "")
-            or iframe.get("src", ""),
+            str(iframe.get("data-crossword-url", ""))
+            or str(iframe.get("data-src", ""))
+            or str(iframe.get("src", "")),
         )
         for iframe in soup.find_all("iframe")
+        if isinstance(iframe, Tag)
     ]
 
     sources = [src for src in sources if src != "about:blank"]
