@@ -113,19 +113,10 @@ def parse_for_embedded_puzzle(url: str, **kwargs):
 
     return None, None
 
-
-<<<<<<< HEAD
-def get_supported_outlets(command_only=True):
-    all_classes = inspect.getmembers(sys.modules['downloader'],
-                                     inspect.isclass)
-    dls = [d for d in all_classes if issubclass(d[1], 
-                   downloader.BaseDownloader)]
-=======
 def get_supported_outlets(
     command_only=False, matches_url=False, matches_embed_url=False
 ):
     matched_plugins = []
->>>>>>> cb08343 (Clean up a number of small issues and improve error checking (#205))
 
     # build a list of plugins with the requested features
     for plugin in plugins:
