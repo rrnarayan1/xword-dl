@@ -19,7 +19,7 @@ from util import *
 
 try:
     # from ._version import __version__ as __version__  # type: ignore
-    from. _version import __version__ as __version__  # type: ignore
+    from _version import __version__ as __version__  # type: ignore
 except ModuleNotFoundError:
     __version__ = "0.0.0-dev"
 
