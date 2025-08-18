@@ -2,7 +2,7 @@ import datetime
 
 from .newyorktimesdownloader import NewYorkTimesDownloader
 from .basedownloader import BaseDownloader
-from ..util import *
+from util import *
 
 class NewYorkTimesMiniDownloader(NewYorkTimesDownloader):
     command = 'nytm'

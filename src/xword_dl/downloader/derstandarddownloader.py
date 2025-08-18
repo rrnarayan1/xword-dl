@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError
 
 from .amuselabsdownloader import AmuseLabsDownloader
-from ..util import XWordDLException
+# from ..util import XWordDLException
+from util import XWordDLException
 
 
 class DerStandardDownloader(AmuseLabsDownloader):

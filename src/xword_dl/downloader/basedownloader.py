@@ -4,11 +4,8 @@ from datetime import datetime
 import requests
 from puz import Puzzle
 
-from ..util import (
-    read_config_values,
-    remove_invalid_chars_from_filename,
-    sanitize_for_puzfile,
-)
+# from ..util import *
+from util import *
 
 
 class BaseDownloader:
