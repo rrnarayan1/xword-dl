@@ -6,7 +6,8 @@ import requests
 
 from bs4 import BeautifulSoup, Tag
 
-from xword_dl.util.utils import XWordDLException
+#from xword_dl.util.utils import XWordDLException
+from util import XWordDLException
 
 from .compilerdownloader import CrosswordCompilerDownloader
 
