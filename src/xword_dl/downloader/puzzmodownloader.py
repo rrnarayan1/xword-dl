@@ -9,9 +9,7 @@ from zoneinfo import ZoneInfo
 
 from .basedownloader import BaseDownloader
 
-# from ..util import join_bylines, XWordDLException
-from util import join_bylines, XWordDLException
-
+from ..util import join_bylines, XWordDLException
 
 class PuzzmoDownloader(BaseDownloader):
     command = "pzm"
