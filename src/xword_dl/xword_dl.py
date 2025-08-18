@@ -11,7 +11,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from puz import Puzzle
 
-sys.path.insert(0, './src/xword_dl')
+# sys.path.insert(0, './src/xword_dl')
 
 from downloader import get_plugins
 from downloader.basedownloader import BaseDownloader as __bd
