@@ -11,16 +11,15 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from puz import Puzzle
 
-# sys.path.insert(0, './xword_dl')
+sys.path.insert(0, './src/xword_dl')
 
 from downloader import get_plugins
 from downloader.basedownloader import BaseDownloader as __bd
 from util import *
 
-with open(os.path.join(os.path.dirname(__file__), 'version')) as f:
-    __version__ = f.read().strip()
 try:
-    from ._version import __version__ as __version__  # type: ignore
+    # from ._version import __version__ as __version__  # type: ignore
+    from. _version import __version__ as __version__  # type: ignore
 except ModuleNotFoundError:
     __version__ = "0.0.0-dev"
 
