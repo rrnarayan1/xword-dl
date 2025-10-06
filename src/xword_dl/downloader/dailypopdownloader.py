@@ -3,7 +3,7 @@ import requests
 import urllib.parse
 
 from .compilerdownloader import CrosswordCompilerDownloader
-from ..util import XWordDLException
+from util import XWordDLException
 
 
 class DailyPopDownloader(CrosswordCompilerDownloader):
