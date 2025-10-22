@@ -4,14 +4,14 @@ from datetime import datetime
 import requests
 from puz import Puzzle
 
-from ..util import (
+from util import (
     read_config_values,
     remove_invalid_chars_from_filename,
     sanitize_for_puzfile,
 )
 
 try:
-    from .._version import __version__ as __version__  # type: ignore
+    from _version import __version__ as __version__  # type: ignore
 except ModuleNotFoundError:
     __version__ = "0.0.0-dev"
 

@@ -14,7 +14,7 @@ from collections import deque
 from typing import List
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException, unidecode
+from util import XWordDLException, unidecode
 
 
 class AmuseLabsDownloader(BaseDownloader):
