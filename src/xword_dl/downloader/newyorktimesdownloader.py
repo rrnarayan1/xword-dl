@@ -6,7 +6,7 @@ import requests
 from getpass import getpass
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException, join_bylines, update_config_file, unidecode
+from util import XWordDLException, join_bylines, update_config_file, unidecode
 
 
 class NewYorkTimesDownloader(BaseDownloader):
@@ -109,7 +109,7 @@ class NewYorkTimesDownloader(BaseDownloader):
         return url
 
     def fetch_data(self, solver_url):
-        res = requests.get(solver_url, cookies=self.cookies)
+        res = requests.get(solver_url, headers=self.headers, cookies=self.cookies)
 
         try:
             res.raise_for_status()
@@ -235,22 +235,25 @@ class NewYorkTimesMiniDownloader(NewYorkTimesDownloader):
     outlet_prefix = "NY Times Mini"
 
     def __init__(self, **kwargs):
-        super().__init__(inherit_settings="nyt", **kwargs)
-
-        self.url_from_date = (
-            "https://www.nytimes.com/svc/crosswords/v6/puzzle/mini/{}.json"
-        )
+        BaseDownloader.__init__(self, **kwargs)
+        self.headers = {
+            "X-Games-Auth-Bypass": "true"
+        }
+        self.cookies = {}
 
     @classmethod
     def matches_url(cls, url_components):
         return "nytimes.com" in url_components.netloc and "mini" in url_components.path
 
     def find_latest(self):
-        oracle = "https://www.nytimes.com/svc/crosswords/v2/oracle/mini.json"
+        return 'https://www.nytimes.com/svc/crosswords/v6/puzzle/mini.json'
 
-        res = requests.get(oracle)
-        puzzle_date = res.json()["results"]["current"]["print_date"]
+    def find_solver(self, url):
+        return 'https://www.nytimes.com/svc/crosswords/v6/puzzle/mini.json'
 
-        url = self.url_from_date.format(puzzle_date)
-
-        return url
+    def parse_xword(self, xword_data):
+        try:
+            self.date = datetime.datetime.strptime(xword_data["publicationDate"], '%Y-%m-%d')
+            return super().parse_xword(xword_data)
+        except ValueError:
+            raise XWordDLException('Encountered error while parsing data. Maybe the selected puzzle is not a crossword?')

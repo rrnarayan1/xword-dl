@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 from .puzzmodownloader import PuzzmoDownloader
-from ..util import XWordDLException
+from util import XWordDLException
 
 
 class NewYorkerDownloader(PuzzmoDownloader):

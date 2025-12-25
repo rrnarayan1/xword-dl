@@ -12,9 +12,10 @@ from bs4 import BeautifulSoup, Tag
 
 from collections import deque
 from typing import List
+from zoneinfo import ZoneInfo
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException, unidecode
+from util import XWordDLException, unidecode
 
 
 class AmuseLabsDownloader(BaseDownloader):
@@ -249,8 +250,12 @@ class AmuseLabsDownloader(BaseDownloader):
         puzzle.height = xw_data.get("h")
 
         timestamp = int(xw_data.get("publishTime", 0)) // 1000
+        tz = xw_data.get("publishTimeZone")
         if timestamp and not self.date:
-            self.date = datetime.date.fromtimestamp(timestamp)
+            if tz:
+                self.date = datetime.datetime.fromtimestamp(timestamp, ZoneInfo(tz)).date()
+            else:
+                self.date = datetime.date.fromtimestamp(timestamp)
 
         markup_data = xw_data.get("cellInfos", "")
 

@@ -1,0 +1,482 @@
+diff --git a/src/xword_dl/downloader/amuniversaldownloader.py b/src/xword_dl/downloader/amuniversaldownloader.py
+index 91fc534..d876f0b 100644
+--- a/src/xword_dl/downloader/amuniversaldownloader.py
++++ b/src/xword_dl/downloader/amuniversaldownloader.py
+@@ -11,7 +11,7 @@ from urllib.parse import unquote
+ from xml.parsers.expat import ExpatError
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class AMUniversalDownloader(BaseDownloader):
+diff --git a/src/xword_dl/downloader/amuselabsdownloader.py b/src/xword_dl/downloader/amuselabsdownloader.py
+index 2ac3efc..a65d925 100644
+--- a/src/xword_dl/downloader/amuselabsdownloader.py
++++ b/src/xword_dl/downloader/amuselabsdownloader.py
+@@ -12,9 +12,10 @@ from bs4 import BeautifulSoup, Tag
+ 
+ from collections import deque
+ from typing import List
++from zoneinfo import ZoneInfo
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import XWordDLException, unidecode
++from util import XWordDLException, unidecode
+ 
+ 
+ class AmuseLabsDownloader(BaseDownloader):
+@@ -249,8 +250,12 @@ class AmuseLabsDownloader(BaseDownloader):
+         puzzle.height = xw_data.get("h")
+ 
+         timestamp = int(xw_data.get("publishTime", 0)) // 1000
++        tz = xw_data.get("publishTimeZone")
+         if timestamp and not self.date:
+-            self.date = datetime.date.fromtimestamp(timestamp)
++            if tz:
++                self.date = datetime.datetime.fromtimestamp(timestamp, ZoneInfo(tz)).date()
++            else:
++                self.date = datetime.date.fromtimestamp(timestamp)
+ 
+         markup_data = xw_data.get("cellInfos", "")
+ 
+diff --git a/src/xword_dl/downloader/basedownloader.py b/src/xword_dl/downloader/basedownloader.py
+index 926a4ce..915554b 100644
+--- a/src/xword_dl/downloader/basedownloader.py
++++ b/src/xword_dl/downloader/basedownloader.py
+@@ -4,14 +4,14 @@ from datetime import datetime
+ import requests
+ from puz import Puzzle
+ 
+-from ..util import (
++from util import (
+     read_config_values,
+     remove_invalid_chars_from_filename,
+     sanitize_for_puzfile,
+ )
+ 
+ try:
+-    from .._version import __version__ as __version__  # type: ignore
++    from _version import __version__ as __version__  # type: ignore
+ except ModuleNotFoundError:
+     __version__ = "0.0.0-dev"
+ 
+diff --git a/src/xword_dl/downloader/billboarddownloader.py b/src/xword_dl/downloader/billboarddownloader.py
+index 396ee84..daeab7d 100644
+--- a/src/xword_dl/downloader/billboarddownloader.py
++++ b/src/xword_dl/downloader/billboarddownloader.py
+@@ -1,5 +1,5 @@
+ from .amuselabsdownloader import AmuseLabsDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class BillboardDownloader(AmuseLabsDownloader):
+diff --git a/src/xword_dl/downloader/crosswordclubdownloader.py b/src/xword_dl/downloader/crosswordclubdownloader.py
+index bfe81ea..7173448 100644
+--- a/src/xword_dl/downloader/crosswordclubdownloader.py
++++ b/src/xword_dl/downloader/crosswordclubdownloader.py
+@@ -6,7 +6,7 @@ import requests
+ from bs4 import BeautifulSoup
+ 
+ from .amuselabsdownloader import AmuseLabsDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class CrosswordClubDownloader(AmuseLabsDownloader):
+diff --git a/src/xword_dl/downloader/dailypopdownloader.py b/src/xword_dl/downloader/dailypopdownloader.py
+index 51c5e8c..d331637 100644
+--- a/src/xword_dl/downloader/dailypopdownloader.py
++++ b/src/xword_dl/downloader/dailypopdownloader.py
+@@ -3,7 +3,7 @@ import requests
+ import urllib.parse
+ 
+ from .compilerdownloader import CrosswordCompilerDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class DailyPopDownloader(CrosswordCompilerDownloader):
+diff --git a/src/xword_dl/downloader/derstandarddownloader.py b/src/xword_dl/downloader/derstandarddownloader.py
+index 8dca314..3c55cfa 100644
+--- a/src/xword_dl/downloader/derstandarddownloader.py
++++ b/src/xword_dl/downloader/derstandarddownloader.py
+@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
+ from requests.exceptions import HTTPError
+ 
+ from .amuselabsdownloader import AmuseLabsDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class DerStandardDownloader(AmuseLabsDownloader):
+diff --git a/src/xword_dl/downloader/globeandmaildownloader.py b/src/xword_dl/downloader/globeandmaildownloader.py
+index a1724aa..5c12e07 100644
+--- a/src/xword_dl/downloader/globeandmaildownloader.py
++++ b/src/xword_dl/downloader/globeandmaildownloader.py
+@@ -7,7 +7,7 @@ import urllib.parse
+ from functools import partial
+ 
+ from .compilerdownloader import CrosswordCompilerDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class GlobeAndMailDownloader(CrosswordCompilerDownloader):
+diff --git a/src/xword_dl/downloader/guardiandownloader.py b/src/xword_dl/downloader/guardiandownloader.py
+index ac1b327..b178b5f 100644
+--- a/src/xword_dl/downloader/guardiandownloader.py
++++ b/src/xword_dl/downloader/guardiandownloader.py
+@@ -8,7 +8,7 @@ import requests
+ from bs4 import BeautifulSoup, Tag
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class GuardianDownloader(BaseDownloader):
+diff --git a/src/xword_dl/downloader/mckinseydownloader.py b/src/xword_dl/downloader/mckinseydownloader.py
+index 910c067..990a1f7 100644
+--- a/src/xword_dl/downloader/mckinseydownloader.py
++++ b/src/xword_dl/downloader/mckinseydownloader.py
+@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
+ from requests.exceptions import RequestException
+ 
+ from .amuselabsdownloader import AmuseLabsDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class McKinseyDownloader(AmuseLabsDownloader):
+diff --git a/src/xword_dl/downloader/newyorkerdownloader.py b/src/xword_dl/downloader/newyorkerdownloader.py
+index 8c90b1c..fd3a80b 100644
+--- a/src/xword_dl/downloader/newyorkerdownloader.py
++++ b/src/xword_dl/downloader/newyorkerdownloader.py
+@@ -9,7 +9,7 @@ import requests
+ from bs4 import BeautifulSoup, Tag
+ 
+ from .puzzmodownloader import PuzzmoDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class NewYorkerDownloader(PuzzmoDownloader):
+diff --git a/src/xword_dl/downloader/newyorktimesdownloader.py b/src/xword_dl/downloader/newyorktimesdownloader.py
+index 1fb5250..2ad02be 100644
+--- a/src/xword_dl/downloader/newyorktimesdownloader.py
++++ b/src/xword_dl/downloader/newyorktimesdownloader.py
+@@ -6,7 +6,7 @@ import requests
+ from getpass import getpass
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import XWordDLException, join_bylines, update_config_file, unidecode
++from util import XWordDLException, join_bylines, update_config_file, unidecode
+ 
+ 
+ class NewYorkTimesDownloader(BaseDownloader):
+@@ -109,7 +109,7 @@ class NewYorkTimesDownloader(BaseDownloader):
+         return url
+ 
+     def fetch_data(self, solver_url):
+-        res = requests.get(solver_url, cookies=self.cookies)
++        res = requests.get(solver_url, headers=self.headers, cookies=self.cookies)
+ 
+         try:
+             res.raise_for_status()
+@@ -235,22 +235,25 @@ class NewYorkTimesMiniDownloader(NewYorkTimesDownloader):
+     outlet_prefix = "NY Times Mini"
+ 
+     def __init__(self, **kwargs):
+-        super().__init__(inherit_settings="nyt", **kwargs)
+-
+-        self.url_from_date = (
+-            "https://www.nytimes.com/svc/crosswords/v6/puzzle/mini/{}.json"
+-        )
++        BaseDownloader.__init__(self, **kwargs)
++        self.headers = {
++            "X-Games-Auth-Bypass": "true"
++        }
++        self.cookies = {}
+ 
+     @classmethod
+     def matches_url(cls, url_components):
+         return "nytimes.com" in url_components.netloc and "mini" in url_components.path
+ 
+     def find_latest(self):
+-        oracle = "https://www.nytimes.com/svc/crosswords/v2/oracle/mini.json"
++        return 'https://www.nytimes.com/svc/crosswords/v6/puzzle/mini.json'
+ 
+-        res = requests.get(oracle)
+-        puzzle_date = res.json()["results"]["current"]["print_date"]
+-
+-        url = self.url_from_date.format(puzzle_date)
++    def find_solver(self, url):
++        return 'https://www.nytimes.com/svc/crosswords/v6/puzzle/mini.json'
+ 
+-        return url
++    def parse_xword(self, xword_data):
++        try:
++            self.date = datetime.datetime.strptime(xword_data["publicationDate"], '%Y-%m-%d')
++            return super().parse_xword(xword_data)
++        except ValueError:
++            raise XWordDLException('Encountered error while parsing data. Maybe the selected puzzle is not a crossword?')
+diff --git a/src/xword_dl/downloader/newyorktimessyndicateddownloader.py b/src/xword_dl/downloader/newyorktimessyndicateddownloader.py
+new file mode 100644
+index 0000000..296107e
+--- /dev/null
++++ b/src/xword_dl/downloader/newyorktimessyndicateddownloader.py
+@@ -0,0 +1,149 @@
++import datetime
++import urllib
++
++import puz
++from puz import DefaultClueNumbering
++import requests
++
++from .basedownloader import BaseDownloader
++from util import *
++
++class NewYorkTimesSyndicatedDownloader(BaseDownloader):
++    command = 'nyts'
++    outlet = 'New York Times Syndicated'
++    outlet_prefix = 'NY Times Syndicated'
++
++    def __init__(self, **kwargs):
++        super().__init__(**kwargs)
++
++        self.url_from_id = 'https://nytsyn.pzzl.com/nytsyn-crossword-mh/nytsyncrossword?date={}'
++
++        self.headers = {}
++        self.cookies = {}
++
++    def find_latest(self):
++        dt = datetime.datetime.today()
++        return self.find_by_date(dt)
++
++    def find_by_date(self, dt):
++         formatted_date = dt.strftime('%y%m%d')
++         self.date = dt
++         return self.url_from_id.format(formatted_date)
++
++    def find_solver(self, url):
++        return url
++
++    def fetch_data(self, solver_url):
++        res = requests.get(solver_url, cookies=self.cookies)
++        res.raise_for_status()
++
++        return res.text
++
++    def parse_xword(self, xword_data):
++        sections = ['note', 'title', 'authors', 'width', 'height', 'ignore', 'ignore', 'grid', 'across_clues', 'down_clues']
++        puzzle = puz.Puzzle()
++
++        lines = xword_data.split('\n')[2:]
++
++        fill = ''
++        solution = ''
++        clues = []
++        rebus_board = []
++        rebus_index = 0
++        rebus_table = ''
++        markup = b''
++
++        for line in lines:
++            if (len(sections) == 0):
++                break
++            if (line.strip() == ''):
++                sections.pop(0)
++                continue
++
++            section = sections[0]
++
++            if (section == 'note'):
++                original_date = datetime.datetime.strptime(line.strip(), '%y%m%d')
++                puzzle.notes = original_date.strftime('%A, %B %d, %Y')
++            elif (section == 'title'):
++                puzzle.title = line.strip()
++            elif (section == 'authors'):
++                puzzle.author = line.strip()
++            elif (section == 'width'):
++                puzzle.width = int(line.strip())
++            elif (section == 'height'):
++                puzzle.height = int(line.strip())
++            elif (section == 'grid'):
++                row = line.strip()
++                i = 0
++                while i < len(row):
++                    if (row[i] == '#' or row[i] == '.'):
++                        fill += '.'
++                        solution += '.'
++                        markup += b'\x00'
++                        rebus_board.append(0)
++                    elif (row[i] == '%'):
++                        # circled cell
++                        markup += b'\x80'
++                    elif (row[i] == '^'):
++                        # shaded cell, using 'hinted cell'
++                        markup += b'\x40'
++                    elif (i + 1 < len(row) and row[i+1] == ','):
++                        # rebus is formatted as letters with commas between the word
++                        fill += '-'
++                        solution += row[i]
++                        markup += b'\x00'
++
++                        rebus_word = ''
++                        while True:
++                            if (row[i] == ','):
++                                i += 1
++                                continue
++                            else:
++                                rebus_word += row[i]
++                                i += 1
++                                if (i >= len(row) or row[i] != ','):
++                                    break
++                        rebus_board.append(rebus_index + 1)
++                        rebus_table += '{:2d}:{};'.format(rebus_index, rebus_word)
++                        rebus_index += 1
++                        continue
++                    else:
++                        fill += '-'
++                        solution += row[i]
++                        rebus_board.append(0)
++                        if (i == 0 or (row[i-1] != '%' and row[i-1] != '^')):
++                            markup += b'\x00'
++                    i+=1
++            elif (section == 'across_clues'):
++                clues.append({'value': line.strip(), 'direction': 'A', 'num': 0})
++            elif (section == 'down_clues'):
++                clues.append({'value': line.strip(), 'direction': 'D', 'num': 0})
++
++
++        puzzle.fill = fill
++        puzzle.solution = solution
++        numbering = DefaultClueNumbering(puzzle.fill, ["temp-value" for c in clues], puzzle.width, puzzle.height)
++        i = 0
++        for mapping in numbering.across:
++            clues[i]['num'] = mapping['num']
++            i+=1
++
++        for mapping in numbering.down:
++            clues[i]['num'] = mapping['num']
++            i+=1
++        clues.sort(key=lambda c: (int(c['num']), c['direction']))
++        puzzle.clues = [c['value'] for c in clues]
++
++        if (b'\x80' in markup or b'\x40' in markup):
++            puzzle.extensions[b'GEXT'] = markup
++            puzzle._extensions_order.append(b'GEXT')
++            puzzle.markup()
++
++        if any(rebus_board):
++            puzzle.extensions[b'GRBS'] = bytes(rebus_board)
++            puzzle.extensions[b'RTBL'] = rebus_table.encode(puz.ENCODING)
++            puzzle._extensions_order.extend([b'GRBS', b'RTBL'])
++            puzzle.rebus()
++
++        return puzzle
+\ No newline at end of file
+diff --git a/src/xword_dl/downloader/observerdownloader.py b/src/xword_dl/downloader/observerdownloader.py
+index fcde7b0..552efd5 100644
+--- a/src/xword_dl/downloader/observerdownloader.py
++++ b/src/xword_dl/downloader/observerdownloader.py
+@@ -6,7 +6,7 @@ import dateparser
+ from bs4 import BeautifulSoup, Tag
+ 
+ from .amuselabsdownloader import AmuseLabsDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class ObserverDownloader(AmuseLabsDownloader):
+diff --git a/src/xword_dl/downloader/puzzlesocietydownloader.py b/src/xword_dl/downloader/puzzlesocietydownloader.py
+index ce9ca78..0042e44 100644
+--- a/src/xword_dl/downloader/puzzlesocietydownloader.py
++++ b/src/xword_dl/downloader/puzzlesocietydownloader.py
+@@ -6,7 +6,7 @@ import requests
+ 
+ from bs4 import BeautifulSoup, Tag
+ 
+-from xword_dl.util.utils import XWordDLException
++from util import XWordDLException
+ 
+ from .compilerdownloader import CrosswordCompilerDownloader
+ 
+diff --git a/src/xword_dl/downloader/puzzmodownloader.py b/src/xword_dl/downloader/puzzmodownloader.py
+index 7451e08..574f17b 100644
+--- a/src/xword_dl/downloader/puzzmodownloader.py
++++ b/src/xword_dl/downloader/puzzmodownloader.py
+@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
+ from zoneinfo import ZoneInfo
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import join_bylines, XWordDLException
++from util import join_bylines, XWordDLException
+ 
+ 
+ class PuzzmoDownloader(BaseDownloader):
+diff --git a/src/xword_dl/downloader/vulturedownloader.py b/src/xword_dl/downloader/vulturedownloader.py
+index 26b0838..e3008cf 100644
+--- a/src/xword_dl/downloader/vulturedownloader.py
++++ b/src/xword_dl/downloader/vulturedownloader.py
+@@ -4,7 +4,7 @@ from urllib.parse import urlparse
+ from bs4 import BeautifulSoup, Tag
+ 
+ from .amuselabsdownloader import AmuseLabsDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class VultureDownloader(AmuseLabsDownloader):
+diff --git a/src/xword_dl/downloader/wapodownloader.py b/src/xword_dl/downloader/wapodownloader.py
+index 00727c0..3ddb3ba 100644
+--- a/src/xword_dl/downloader/wapodownloader.py
++++ b/src/xword_dl/downloader/wapodownloader.py
+@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
+ import puz
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class WaPoDownloader(BaseDownloader):
+diff --git a/src/xword_dl/downloader/wsjdownloader.py b/src/xword_dl/downloader/wsjdownloader.py
+index 1bb3c4e..ace9102 100644
+--- a/src/xword_dl/downloader/wsjdownloader.py
++++ b/src/xword_dl/downloader/wsjdownloader.py
+@@ -9,7 +9,7 @@ import puz
+ from bs4 import BeautifulSoup, Tag
+ 
+ from .basedownloader import BaseDownloader
+-from ..util import XWordDLException
++from util import XWordDLException
+ 
+ 
+ class WSJDownloader(BaseDownloader):
+diff --git a/src/xword_dl/xword_dl.py b/src/xword_dl/xword_dl.py
+index 9c3807e..29b230d 100644
+--- a/src/xword_dl/xword_dl.py
++++ b/src/xword_dl/xword_dl.py
+@@ -10,12 +10,14 @@ import requests
+ 
+ from puz import Puzzle
+ 
+-from .downloader import get_plugins
+-from .downloader.basedownloader import BaseDownloader as __bd
+-from .util import XWordDLException, parse_date_or_exit, save_puzzle
++# sys.path.insert(0, './src/xword_dl')
++
++from downloader import get_plugins
++from downloader.basedownloader import BaseDownloader as __bd
++from util import XWordDLException, parse_date_or_exit, save_puzzle
+ 
+ try:
+-    from ._version import __version__ as __version__  # type: ignore
++    from _version import __version__ as __version__  # type: ignore
+ except ModuleNotFoundError:
+     __version__ = "0.0.0-dev"
+ 
