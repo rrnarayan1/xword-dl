@@ -10,12 +10,14 @@ import requests
 
 from puz import Puzzle
 
-from .downloader import get_plugins
-from .downloader.basedownloader import BaseDownloader as __bd
-from .util import XWordDLException, parse_date_or_exit, save_puzzle
+# sys.path.insert(0, './src/xword_dl')
+
+from downloader import get_plugins
+from downloader.basedownloader import BaseDownloader as __bd
+from util import XWordDLException, parse_date_or_exit, save_puzzle
 
 try:
-    from ._version import __version__ as __version__  # type: ignore
+    from _version import __version__ as __version__  # type: ignore
 except ModuleNotFoundError:
     __version__ = "0.0.0-dev"
 
