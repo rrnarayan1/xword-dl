@@ -1,5 +1,13 @@
 # xword-dl
 
+Local usage:
+1. Uncomment `sys.path.insert(0, './src/xword_dl')`
+2. Install tool
+```
+uv tool install . -n --reinstall
+xword-dl nyts
+```
+
 `xword-dl` is a command-line tool to download .puz files for online crossword puzzles from supported outlets or arbitrary URLs with embedded crossword solvers. For a supported outlet, you can easily download the latest puzzle, or specify one from the archives.
 
 Supported outlets:

@@ -3,7 +3,7 @@ import datetime
 import puz
 
 from .basedownloader import BaseDownloader
-from ..util import XWordDLException
+from util import XWordDLException
 
 
 class PrincetonianBaseDownloader(BaseDownloader):

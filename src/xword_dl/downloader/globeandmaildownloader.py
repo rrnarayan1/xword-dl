@@ -7,7 +7,7 @@ import urllib.parse
 from functools import partial
 
 from .compilerdownloader import CrosswordCompilerDownloader
-from ..util import XWordDLException
+from util import XWordDLException
 
 
 class GlobeAndMailDownloader(CrosswordCompilerDownloader):
